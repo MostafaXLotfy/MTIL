@@ -1,3 +1,5 @@
+import sys
+
 import os
 from inference_M import MyInferenceModel
 import numpy as np
@@ -6,6 +8,8 @@ import torch
 from einops import rearrange
 from sim_env import make_sim_env, BOX_POSE
 from visualize_episodes import save_videos
+import train.mamba_policy as mp
+sys.modules["mamba_policy"] = mp
 from train.mamba_policy import MambaPolicy, MambaConfig
 from train.scaler_M import Scaler
 from train.M_dataset import MambaSequenceDataset
@@ -68,8 +72,8 @@ def get_image(ts, camera_names):
     return curr_images
 
 
-scaler_path = 'scaler_params.pth'  # your own path
-checkpoint = 'last.ckpt'  # your own path
+scaler_path = 'train/scaler_params.pth'  # your own path
+checkpoint = 'train/lightning_logs/version_1/checkpoints/last.ckpt'  # your own path
 results_dir = 'video'  # your own path
 #  初始化推理模型
 config = MambaConfig()

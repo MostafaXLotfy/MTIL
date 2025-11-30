@@ -6,13 +6,13 @@ import pytorch_lightning as pl
 from torch.utils.data import DataLoader
 import torch.nn.functional as F
 from pytorch_lightning import seed_everything
-from metric_M import my_Metric
-from scaler_M import Scaler
+from .metric_M import my_Metric
+from .scaler_M import Scaler
 from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts
 
 
-from M_dataset import MambaSequenceDataset
-from mamba_policy import MambaPolicy, MambaConfig  # mamba2 + policy
+from .M_dataset import MambaSequenceDataset
+from .mamba_policy import MambaPolicy, MambaConfig  # mamba2 + policy
 
 class LitMambaModel(pl.LightningModule):
     def __init__(self, config: MambaConfig, scaler: Scaler, future_steps: int = 16):
@@ -29,7 +29,7 @@ class LitMambaModel(pl.LightningModule):
         self.policy = MambaPolicy(
             camera_names = config.camera_names,
             embed_dim = config.embed_dim,
-            lowdim_dim = config.lowdim,
+            lowdim_dim = config.lowdim_dim,
             d_model = config.d_model,
             action_dim = config.action_dim,   # pose_act(12) + gripper_act(2) = 14
             sum_camera_feats = config.sum_camera_feats,
@@ -461,7 +461,7 @@ def main():
     trainer = pl.Trainer(
         accelerator='gpu',
         devices=[0],  # single GPU
-        max_epochs=200,
+        max_epochs=1,
         callbacks=[lr_monitor, ckpt_cb],
         precision=32
     )

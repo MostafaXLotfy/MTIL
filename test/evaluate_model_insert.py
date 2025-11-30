@@ -1,11 +1,11 @@
 import os
-from inference_M import MyInferenceModel
+from .inference_M import MyInferenceModel
 import numpy as np
 import matplotlib.pyplot as plt
 import torch
 from einops import rearrange
-from sim_env import make_sim_env, BOX_POSE
-from visualize_episodes import save_videos
+from .sim_env import make_sim_env, BOX_POSE
+from .visualize_episodes import save_videos
 from train.mamba_policy import MambaPolicy, MambaConfig
 from train.scaler_M import Scaler
 from train.M_dataset import MambaSequenceDataset
